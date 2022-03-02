@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+    <!-- <script>
+        
+        // 바닐라JS 에서는 Element을 계속 다시 그려준다.
+        const rootElement = document.getElementById("root");    
+
+        function random() {
+            const number = Math.floor(Math.random() * (10 - 1) + 1);
+            const element =`
+                <button>${number}</button>
+            `;
+
+            rootElement.innerHTML = element;
+        } 
+        setInterval(random, 1000);
+    </script> -->
+
+    <script type="text/babel">
+
+        // Reate에서는 변경된 부분만 다시 그려준다.
+
+        /*
+            React 엘리먼트는 불변객체 이다.
+            불변객체란 변하지 않는 객체 이며 
+            우리는 그저 ReactDOM.render(element, rootElement); 로 전달 할뿐
+            변경 판단 및 반영은 리엑트다 알아서 해준다.
+
+            리엑트는 비교 알고리즘을 가지고 있다. (Reconcillation)
+            리엑트는 Virtual Dom을 가지고 있다,
+
+            만약 엘리먼트 타입이 바뀌면?
+                이전 엘리먼트는 버리고 새로 그린다.
+            
+            엘리먼트 타입이 같다면?
+                (key를 먼저 비교 하고) props를 비교해서 변경사항을 반영한다.
+        */
+
+        const rootElement = document.getElementById("root");    
+
+        function random() {
+            const number = Math.floor(Math.random() * (10 - 1) + 1);
+
+            const element = 
+                <>
+                    <button>{number}</button>
+                    <p>{number}</p>
+                </>
+            
+            ReactDOM.render(element, rootElement);
+        } 
+        setInterval(random, 1000);
+    </script>
+
+  </body>
+</html>
