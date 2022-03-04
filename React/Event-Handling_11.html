@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const rootElement = document.getElementById("root");
+        // 전역변수
+        const state = { keyword: "", typing: false, result: ""};
+        
+        const App = () => {
+            function handleChange() {
+                // event.target.value는 선언해준 함수 hadleChange가 적용되는 테그? 기준의 target 기준을 말한다.
+                setStat({
+                    keyword : event.target.value,
+                    typing: true
+                });
+            }
+
+            function handleClick() {
+                setStat({
+                    typing: false,
+                    result: `we find results of ${state.keyword}`,
+                });
+            }
+
+            // {state.typing ? `Loking for ${state.keyword}....` : state.result}은
+            // state.typing 가 true면 Loking- 을 보여주고 아니면 state.result을 보여준다.
+
+            return (
+                <>
+                    <input onChange={handleChange} />
+                    <button onClick={handleClick}>search</button>
+                    <p> {state.typing ? `Loking for ${state.keyword}....` : state.result}</p>
+                </>            
+            );
+        };
+
+        function setStat(newState) {
+            // Object.assing은 기존에 있던 값에 달라진 값만 적용시킨다.
+            Object.assign(state, newState);
+
+            // 적용 할떄마다 render을 새로 불러온다 / 값이 달라지면
+            render();
+        }
+        
+        function render() {
+            // 위의 처리를 위해 함수로 뺐다
+            ReactDOM.render(<App />, rootElement);
+        }
+
+        // 기본적으로 render을 안그려주면 아무것도 안나오기 떄문에 처음 시작할 떄 한번 그려준다.
+        render();
+    </script>
+
+</body>
+</html>
