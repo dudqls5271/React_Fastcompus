@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+
+        /*
+            기본적으로 리엑트에서 event을 줄떄는 카멜형식으로 js에서 사용하는 것처럼 사용하면 된다.
+            행동(클릭 등등..) => {() => 행동(alert....)}
+
+            const rootElement = document.getElementById("root");
+            const element = <button onClick = {() => alert("pressed")} onMouseOut = {() => alert("buy")}>Press</button>
+            ReactDOM.render(element, rootElement);
+
+            하지만 다음과 같이 진행 했을때 코드의 가독성이 떨어짐으로 다음과 같이 함수로 빼고 사용이 가능하다.
+        */
+
+        const handleClick = () => alert("pressed");
+        const handleMouseOut= () => alert("buy");
+
+        const rootElement = document.getElementById("root");
+        const element = <button onClick = {handleClick} onMouseOut = {handleMouseOut}>Press</button>
+        ReactDOM.render(element, rootElement);
+    </script>
+
+</body>
+</html>
