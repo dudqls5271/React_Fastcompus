@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const rootElement = document.getElementById("root");
+        // 전역변수
+        // const state = { keyword: "", typing: false, result: ""};
+        
+        const App = () => {
+
+            // React.useState("값")은 변하는 값을 확인해주는것이다.
+            // 약간 Spring의 Vo 처럼 사용하면 될 듯하다.
+            // 이 형식은 배열로 useState()안에 들어가 있는 값은 초기 값으로 가장 앞에 있는 값에 들어게게 된다.
+            const [keyword, setKeyword] = React.useState("");
+            const [typing, setTyping] = React.useState(false);
+            const [result, setResult] = React.useState(""); 
+
+            // 한마디로 다음과 같은 방법으로 사용해도 정상 작동 한다는 것이다.
+            // const keywordState = React.useState("");
+            // const keyword = keywordState[0];
+            // const setKeyword = keywordState[1];
+
+            function handleChange() {
+                // event.target.value로 setKeyword에 값을 전달 해주는 것이다.
+                setKeyword(event.target.value);
+                setTyping(true);
+            }
+
+            function handleClick() {
+                setTyping(false);
+                setResult(`We fing results of ${keyword}...`);
+            }
+            
+            return (
+                // 위에서 값을 지정해줘서 아래로 내려오면 값을 뿌려주는 방식은 처음 있는 값으로 불러오면 된다.
+                <>
+                    <input onChange={handleChange} />
+                    <button onClick={handleClick}>search</button>
+                    <p> {typing ? `Loking for ${keyword}....` : result}</p>
+                </>            
+            );
+        };
+
+        function setStat(newState) {
+            // Object.assing은 기존에 있던 값에 달라진 값만 적용시킨다.
+            Object.assign(state, newState);
+
+            // 적용 할떄마다 render을 새로 불러온다 / 값이 달라지면
+            render();
+        }
+        
+        function render() {
+            // 위의 처리를 위해 함수로 뺐다
+            ReactDOM.render(<App />, rootElement);
+        }
+
+        // 기본적으로 render을 안그려주면 아무것도 안나오기 떄문에 처음 시작할 떄 한번 그려준다.
+        render();
+    </script>
+
+</body>
+</html>
