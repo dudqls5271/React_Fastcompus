@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const rootElement = document.getElementById("root");
+        // 전역변수
+        // const state = { keyword: "", typing: false, result: ""};     
+        const App = () => {
+
+            // React.useState안에 localStorage을 넣고
+            const [keyword, setKeyword] = React.useState(() => {
+                     // 그래서 리엑트useState에서는 함수로 값을 넣어줄 수 있다. 초기값을 return해주는 함수를 넣어줄 수 있다.
+                    // 이렇게 하면 조금 늦게 읽더라도 이 함수가 실행이 완료 되면 결과 값을 받아온다.
+                    return window.localStorage.getItem("keyword");
+                });
+            
+            const [typing, setTyping] = React.useState(false);
+            const [result, setResult] = React.useState(""); 
+            
+            // 이런식으로 밖으로 뺴도 작동이 된다. 하지만 여기서 console.log()을 찍어보면 input안에 값이 변경이 일어날때마다
+            // render가 일어나는 모습을 볼 수 있다. 그 말은 값이 변경 될떄마다 로컬스토리지를 읽어온다는 말이다.
+            // window.localStorage.setItem("keyword", keyword);
+            
+            console.log("render");
+
+            // 그래서 있는게 React에 useEffect()이다. 
+            // useEffect는 2번째 인자로 배열(디펜던시 Array)을 줄 수가 있다. 여기서 비어있는 배열(디펜던시 Array)을 넣어주면 해당 함수는 딱 1번만 실행이 될 것이다.
+            // 그래서 2번쨰 인자에 상태값을 넣어주면 해당 상태가 변경이 일어날때만 Effect가 일어난다.
+            // 그러면 아래처럼 만들게 되면 keyword가 변경되었을떄 또는 typing의 상태 값이 변경 되었을떄 값이 변경된다.
+            // 여기서 배열(디펜던시 Array)에 아무것도 안주면 모든 변화에 반응한다. [] -> 도 없이
+            React.useEffect(() => {
+                console.log("Effetc");
+                window.localStorage.setItem("keyword", keyword);
+            }, [keyword, typing]);
+
+            function handleChange() {
+                // window.localStorage.setItem("", value)는 웹의 로컬 스토리지에 값을 저장해주는 것 이다.
+                // 로컬스토리지는 결국 브라우저안에 있는 로컬 스토리지를 읽어야 한다. 그래서 처음 useState을 그려줄때 딜레이가 있을 수 있다.
+                // 지금 위에 보면 get을 이용하여 로컬 스토리지를 읽어서 값을 적용해주는데 이렇게하면 값이 길거나 많을때 
+                // 화면을 그려주는 것 하고 로컬 스토리지을 읽어서 값을 넣어주는 시간에 딜레이가 생길 수 있다.
+                // React을 먼저 그려주고 -> 로컬 스토리지에서 값을 불러오고 -> 그 값을 뿌려주는 순서
+                window.localStorage.setItem("keyword", event.target.value);
+                setKeyword(event.target.value);
+                setTyping(true);
+            }
+
+            function handleClick() {
+                setTyping(false);
+                setResult(`We fing results of ${keyword}...`);
+            }
+            
+            return (
+                // input안에 value을 keyword을 넣어주면 세로고침을 할 때 자동으로 로컬스토리지에 저장 되어있는 값을 가지고 온다.
+                <>
+                    <input onChange={handleChange} value={keyword} />
+                    <button onClick={handleClick}>search</button>
+                    <p> {typing ? `Loking for ${keyword}....` : result}</p>
+                </>            
+            );
+        };
+
+        function setStat(newState) {
+            // Object.assing은 기존에 있던 값에 달라진 값만 적용시킨다.
+            Object.assign(state, newState);
+
+            // 적용 할떄마다 render을 새로 불러온다 / 값이 달라지면
+            render();
+        }
+        
+        function render() {
+            // 위의 처리를 위해 함수로 뺐다
+            ReactDOM.render(<App />, rootElement);
+        }
+
+        // 기본적으로 render을 안그려주면 아무것도 안나오기 떄문에 처음 시작할 떄 한번 그려준다.
+        render();
+    </script>
+
+</body>
+</html>
