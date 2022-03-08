@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const rootElement = document.getElementById("root");
+
+        function useLocalStorage (itemName, value = "") {
+            const [state, setState] = React.useState(() => {
+                return window.localStorage.getItem(itemName) || value;
+            });
+
+
+            React.useEffect(() => {
+                window.localStorage.setItem(itemName, state);
+            }, [state]);
+
+            return [state, setState];
+        }
+
+        const App = () => {
+            const [keyword, setKeyword] = useLocalStorage("keyword");
+            const [result, setResult] = useLocalStorage("result");   
+            const [typing, setTyping] = useLocalStorage("typing", false);
+                     
+            function handleChange() {
+                window.localStorage.setItem("keyword", event.target.value);
+                setKeyword(event.target.value);
+                setTyping(true);
+            }
+
+            function handleClick() {
+                setTyping(false);
+                setResult(`We fing results of ${keyword}...`);
+            }
+            
+            return (
+                // input안에 value을 keyword을 넣어주면 세로고침을 할 때 자동으로 로컬스토리지에 저장 되어있는 값을 가지고 온다.
+                <>
+                    <input onChange={handleChange} value={keyword} />
+                    <button onClick={handleClick}>search</button>
+                    <p> {typing ? `Loking for ${keyword}....` : result}</p>
+                </>            
+            );
+        };
+
+        function setStat(newState) {
+            // Object.assing은 기존에 있던 값에 달라진 값만 적용시킨다.
+            Object.assign(state, newState);
+
+            // 적용 할떄마다 render을 새로 불러온다 / 값이 달라지면
+            render();
+        }
+        
+        function render() {
+            // 위의 처리를 위해 함수로 뺐다
+            ReactDOM.render(<App />, rootElement);
+        }
+
+        // 기본적으로 render을 안그려주면 아무것도 안나오기 떄문에 처음 시작할 떄 한번 그려준다.
+        render();
+    </script>
+
+</body>
+</html>
