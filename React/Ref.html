@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const rootElement = document.getElementById('root');
+
+        // useRef을 사용하는 이유, document직접 엘리먼트에 도달 하면 비효율이다.
+        
+        const App = () => {
+            // Ref는 특정 값을 주지만 그 값이 무조건 element가 아니다
+            const inputRef = React.useRef();
+            const divRef = React.useRef();
+            React.useEffect(() => {
+                // 바닐라 js 로 했을때
+                // document.getElementById("input").focus();
+                
+                // Ref는 current로 접근이 가능하다.
+                inputRef.current.focus();
+
+                setTimeout(() => {
+                    divRef.current.style.backgroundColor = "pink";
+                }, 1000)
+
+            }, []);
+            return (
+                <>
+                    <input ref={inputRef}/>
+                    <div ref={divRef} style={{height : 100, width: 300, backgroundColor: "brown"}}></div>
+                </>
+            )
+        };
+
+        ReactDOM.render(<App/>, rootElement);
+    </script>
+
+</body>
+</html>
