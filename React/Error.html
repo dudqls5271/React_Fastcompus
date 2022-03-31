@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const rootElement = document.getElementById('root');
+
+        class ErroorBoundary extends React.Component {
+            state = { error: null };
+            static getDerivedStateFromError(error) {
+                return { error };
+            }
+
+            render() {
+                const {error} = this.state;
+                if (error) {
+                    return <this.props.fallback error={error} />;
+                }
+
+                return this.props.children;
+            }
+        }  
+
+        const Child = () => {
+            throw new Error("Something wrong.....");
+            return <p>child....</p>;
+        };
+
+        const Fallback = ({ error }) => {
+            alert(error.message);
+            return <p>{error.message}</p>;
+        }
+
+        const App = () => {
+            return (
+                <> 
+                    <p>App</p>
+                    <ErroorBoundary fallback={Fallback} >
+                        <Child />    
+                    </ErroorBoundary>
+                
+                </>
+            );
+        };
+
+        ReactDOM.render(<App/>, rootElement);
+    </script>
+
+</body>
+</html>
