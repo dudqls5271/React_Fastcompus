@@ -25,13 +25,18 @@
         ];
 
         const App = () => {
-            const [items, setItems] = React.useState(todos)
+            const [items, setItems] = React.useState(todos);
+
+            const handleDeneClick = (todo) => {
+                setItems((items) => items.filter((item) => item !== todo));
+            }
             return <>
-                {items.amp((todo) =>
-                     <div>
+                {items.map((todo) => 
+                    <div>
                         <span>{todo.value}</span>
+                        <button onClick={handleDeneClick}>Done</button>
                     </div>
-                )};
+                )}
             </>;
         };
 
