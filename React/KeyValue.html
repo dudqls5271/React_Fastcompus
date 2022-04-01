@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const rootElement = document.getElementById('root');
+
+        // useRef을 사용하는 이유, document직접 엘리먼트에 도달 하면 비효율이다.
+        
+        const todos = [
+           {id : 1, value : "Wash dishes"},
+           {id : 2, value : "Clean the bed"},
+           {id : 3, value : "Running"},
+           {id : 4, value : "Learning"}
+        ];
+
+        const App = () => {
+            const [items, setItems] = React.useState(todos)
+            return <>
+                {items.amp((todo) =>
+                     <div>
+                        <span>{todo.value}</span>
+                    </div>
+                )};
+            </>;
+        };
+
+        ReactDOM.render(<App/>, rootElement);
+    </script>
+
+</body>
+</html>
