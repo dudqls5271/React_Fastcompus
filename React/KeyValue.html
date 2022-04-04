@@ -34,7 +34,7 @@
                 {items.map((todo) => 
                     <div>
                         <span>{todo.value}</span>
-                        <button onClick={handleDeneClick}>Done</button>
+                        <button onClick={() => handleDeneClick(todo)}>Done</button>
                     </div>
                 )}
             </>;
