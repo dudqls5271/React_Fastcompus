@@ -29,15 +29,32 @@
 
             const handleDeneClick = (todo) => {
                 setItems((items) => items.filter((item) => item !== todo));
-            }
-            return <>
-                {items.map((todo) => 
-                    <div>
-                        <span>{todo.value}</span>
-                        <button onClick={() => handleDeneClick(todo)}>Done</button>
-                    </div>
-                )}
-            </>;
+            };
+
+            //const handleRestoreClick = () => {
+            //    setItems((items) => [
+            //        ...items, 
+            //        todos.find((item) => !items.includes(item))])
+            //};
+
+            const handleRestoreClick = () => {
+                setItems((items) => [
+                    ...items,
+                    todos.find((item) => !items.includes(item))
+                ]);
+            };
+
+            return (
+                <>
+                    {items.map((todo) =>(
+                        <div key={todo.id}>
+                            <span>{todo.value}</span>
+                            <button onClick={() => handleDeneClick(todo)}>Done</button>
+                        </div>
+                    ))}
+                    <button onClick={handleRestoreClick}>Restore</button>
+                </>
+            );
         };
 
         ReactDOM.render(<App/>, rootElement);
