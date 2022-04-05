@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const rootElement = document.getElementById('root');
+
+        const Id = ({handleIdChange}) => {
+            return (
+                <>
+                    <label>ID : </label>
+                    <input onChange={handleIdChange} />
+                </>
+            );
+        }
+
+        const Password = ({handlePasswordChange}) => {
+            return (
+                <>
+                    <label>PW : </label>
+                    <input onChange={handlePasswordChange} type="Password"/>
+                </>
+            );
+        }
+
+        const App = () => {
+            const [id, setId] = React.useState("");
+            const handleIdChange = (event) => {
+                setId(event.target.value);
+                console.log(`id : ${event.target.value.length > 0}`);
+            }
+
+
+            const [password, setPassword] = React.useState("");
+
+            const handlePasswordChange = (event) => {
+                setPassword(event.target.value);
+                console.log(`password : ${event.target.value.length  > 0}`);
+            }
+
+            const handleLoginClick = () => {
+                alert(`id : ${id}, pw: ${password}`);
+            }
+            return (
+                <> 
+                    <Id handleIdChange={handleIdChange}/>
+                    <br/>
+                    <Password handlePasswordChange={handlePasswordChange} />
+                    <button disabled={id.length === 0 || password.length === 0} onClick={handleLoginClick}>LOGIN</button>
+                </>
+            );
+        };
+        
+        
+
+        // const App = () => {
+        //     const [userID, setUserID] = React.useState("");
+        //     const [userPW, setUserPW] = React.useState("");
+            
+        //     const handleChangeID =(event) => {
+        //         setUserID(event.target.value);
+        //     }
+        //     const handleChangePW = (event) => {
+        //         setUserPW(event.target.value);
+        //     }
+
+        //     const handleSubmit = (event) => {
+        //         event.preventDefault();
+
+        //         alert(`id : ${userID}, PW : ${userPW}`);
+        //     }
+        //     return (
+        //         <>
+        //            <form onSubmit={handleSubmit}>
+        //                 <label>ID: </label>
+        //                 <input onChange={handleChangeID} type="text" id="userID" name="userID"></input>
+        //                 <br />
+        //                 <label>PW: </label>
+        //                 <input onChange={handleChangePW} type="pw" id="userPW" name="userPW"></input>
+        //                 <button type="submit" disabled={userID === '' || userPW === ''}>login</button>
+        //             </form>
+        //         </>
+        //     );
+        // };
+
+
+        ReactDOM.render(<App/>, rootElement);
+    </script>
+
+</body>
+</html>
