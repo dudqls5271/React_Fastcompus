@@ -45,9 +45,6 @@ function formatDate(date) {
 
 export default function Exataction() {
   return (
-    <Comment
-    date={comment.date}
-    text={comment.text}
-    author={comment.author} />
+    <Comment date={comment.date} text={comment.text} author={comment.author} />
   )
 }
