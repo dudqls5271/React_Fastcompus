@@ -7,8 +7,8 @@ import FunctionalCommponent from './compoments/2-5.State/FunctionalCommponent';
 function App() {
   return (
   <div className="App">
-      <ClassComposition/>
       <FunctionalCommponent/>
+      <ClassComposition/>
       <Exataction/>
       <Composition />
   </div>
