@@ -1,5 +1,7 @@
 import './App.css';
-import WelcomDialog from './compoments/3-5Composition/WelcomDialog';
+import ThenkyouDialog from './compoments/3-6.Composition2/ThenkyouDialog';
+// import Dialog from './compoments/3-6.Composition2/Dialog';
+// import WelcomDialog from './compoments/3-5Composition/WelcomDialog';
 // import UncontrolledComponent from './compoments/2-10.Form/UncontrolledComponent';
 // import ControlledComponent from './compoments/2-10.Form/ControlledComponent';
 // import State from './compoments/3-3.Hooks/State';
@@ -16,7 +18,9 @@ import WelcomDialog from './compoments/3-5Composition/WelcomDialog';
 function App() {
   return (
   <div className="App">
-    <WelcomDialog/>
+      <ThenkyouDialog />
+      {/* <Dialog /> */}
+      {/* <WelcomDialog/> */}
       {/* <Reducer /> */}
       {/* <State/> */}
       {/* <UncontrolledComponent /> */}
